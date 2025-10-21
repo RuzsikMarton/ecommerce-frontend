@@ -1,7 +1,8 @@
 import ProductInteractions from "@/components/ProductInteractions";
+import { Products } from "@/types";
 import Image from "next/image";
 
-const product = {
+const product: Products = {
   id: 1,
   name: "Adidas CoreFit T-Shirt",
   shortDescription:
@@ -18,16 +19,32 @@ const product = {
   },
 };
 
-const ProductPage = () => {
-  const selectedSize = "m";
-  const selectedColor = "gray";
+export const generateMetadata = async ({params} : {params:{id:string}}) => {
+  //todo: get data from db or api
+  return {
+    title: product.name,
+    description: product.shortDescription,
+  };
+};
+
+const ProductPage = async ({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ color: string; size?: string }>;
+}) => {
+  const {size, color} = await searchParams;
+
+  const selectedSize = product.sizes?.length ? size || product.sizes[0] : null;
+  const selectedColor = color || "gray";
   return (
     <div className="mx-auto p-4 sm:px-0 sm:max-w-xl md:max-w-2xl lg:max-w-5xl xl:max-w-7xl">
       <div className="flex flex-col lg:flex-row justify-between gap-4 md:gap-12 mt-12">
         {/*Image*/}
         <div className="w-full lg:w-5/12 aspect-[2/3] relative">
           <Image
-            src={product.images.gray}
+            src={product.images[selectedColor]}
             alt={product.name}
             fill
             className="object-contain rounded-md"

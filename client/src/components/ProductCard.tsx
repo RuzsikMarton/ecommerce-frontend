@@ -81,7 +81,7 @@ const ProductCard = memo(({ product }: { product: Products }) => {
                   className={`rounded-full p-[1.2px] border cursor-pointer ${
                     productTypes.color === color
                       ? "border-gray-500"
-                      : "border-gray-100"
+                      : "border-gray-300"
                   }`}
                 >
                   <div
