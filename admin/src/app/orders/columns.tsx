@@ -13,11 +13,13 @@ import { cn } from "@/lib/utils";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowDown, ArrowUp, ArrowUpDown, MoreHorizontal } from "lucide-react";
+import Link from "next/link";
 
 export type Payment = {
   id: string;
   amount: number;
-  username: string;
+  fullname: string;
+  userId: string;
   email: string;
   status: "pending" | "success" | "failed" | "refund";
 };
@@ -48,8 +50,8 @@ export const columns: ColumnDef<Payment>[] = [
     header: "ID",
   },
   {
-    accessorKey: "username",
-    header: "Username",
+    accessorKey: "fullname",
+    header: "Full name",
   },
   {
     accessorKey: "email",
@@ -127,7 +129,7 @@ export const columns: ColumnDef<Payment>[] = [
                 Copy payment ID
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>View customer</DropdownMenuItem>
+              <DropdownMenuItem><Link  href={`/users/${payment.userId}`}>View customer</Link></DropdownMenuItem>
               <DropdownMenuItem>View payment details</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

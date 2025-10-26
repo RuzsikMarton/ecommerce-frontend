@@ -3,12 +3,9 @@
 import { useForm } from "react-hook-form";
 import { Button } from "./ui/button";
 import {
-  Sheet,
   SheetContent,
-  SheetDescription,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from "./ui/sheet";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,10 +19,9 @@ import {
   FormMessage,
 } from "./ui/form";
 import { Input } from "./ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 
 const formSchema = z.object({
-  username: z
+  fullname: z
     .string()
     .min(2, { message: "Username must be at least 2 characters!" })
     .max(50),
@@ -34,19 +30,19 @@ const formSchema = z.object({
     .string()
     .min(10, { message: "Phone number must be at least 10 characters!" })
     .max(15),
-  role: z.enum(["USER", "ADMIN"], {
-    message: "Role must be either USER or ADMIN!",
-  }),
+    address: z.string().min(5, "Invalid address!").max(100),
+    city: z.string().min(2, "City must be at least 2 characters!").max(100),
 });
 
 const EditUser = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "admin1",
+      fullname: "Martin Ruszik",
       email: "example@mail.com",
       phone: "+1 234 5678",
-      role: "ADMIN",
+      address: "123 Main st.",
+      city: "New York",
     },
   });
 
@@ -54,28 +50,21 @@ const EditUser = () => {
     console.log(data);
   }
   return (
-    <Sheet>
-      <SheetTrigger asChild>
-        <Button size="sm">Edit User</Button>
-      </SheetTrigger>
       <SheetContent className="px-4">
         <SheetHeader className="px-0">
           <SheetTitle className="mb-4">Edit User</SheetTitle>
-          <SheetDescription>
-            Update user information and permissions.
-          </SheetDescription>
         </SheetHeader>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-4 mt-4"
+            className="space-y-4"
           >
             <FormField
               control={form.control}
-              name={"username"}
+              name={"fullname"}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel>Full name</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -111,23 +100,31 @@ const EditUser = () => {
             ></FormField>
             <FormField
               control={form.control}
-              name={"role"}
+              name={"address"}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Role</FormLabel>
+                  <FormLabel>Address</FormLabel>
                   <FormControl>
-                    <Select>
-                      <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Roles" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="ADMIN">Admin</SelectItem>
-                        <SelectItem value="USER">User</SelectItem>
-                      </SelectContent>
-                    </Select>
+                      <Input {...field} />
                   </FormControl>
                   <FormDescription>
-                    Only verified users can be admin.
+                    Where the packages will be shipped.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            ></FormField>
+            <FormField
+              control={form.control}
+              name={"city"}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>City</FormLabel>
+                  <FormControl>
+                      <Input {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    City or postal code.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -137,7 +134,6 @@ const EditUser = () => {
           </form>
         </Form>
       </SheetContent>
-    </Sheet>
   );
 };
 

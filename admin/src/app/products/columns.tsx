@@ -9,22 +9,24 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { cn } from "@/lib/utils";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowDown, ArrowUp, ArrowUpDown, MoreHorizontal } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
-export type User = {
-  id: string;
-  avatar: string;
-  fullName: string;
-  email: string;
-  status: "active" | "inactive" | "admin";
+export type Product = {
+  id: number;
+  name: string;
+  shortDescription: string;
+  description: string;
+  price: number;
+  sizes: string[];
+  colors: string[];
+  images: Record<string, string>;
 };
 
-export const columns: ColumnDef<User>[] = [
+export const columns: ColumnDef<Product>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -50,30 +52,36 @@ export const columns: ColumnDef<User>[] = [
     header: "ID",
   },
   {
-    accessorKey: "avatar",
-    header: "Avatar",
+    accessorKey: "images",
+    header: "Image",
     cell: ({ row }) => {
-      const avatar = row.getValue("avatar") as User["avatar"];
+      const product = row.original;
+
       return (
-        <div className="relative w-9 h-9">
-          <Image src={avatar} alt="Avatar" fill className="rounded object-cover" />
+        <div className="w-9 h-9 relative">
+          <Image
+            src={product.images[product.colors[0]]}
+            alt={product.name}
+            fill
+            className="object-cover rounded"
+          />
         </div>
-      )
+      );
     },
   },
   {
-    accessorKey: "fullName",
-    header: "Full name",
+    accessorKey: "name",
+    header: "Name",
   },
   {
-    accessorKey: "email",
+    accessorKey: "price",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Email
+          Price
           {column.getIsSorted() === "asc" ? (
             <ArrowUp className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "desc" ? (
@@ -84,31 +92,19 @@ export const columns: ColumnDef<User>[] = [
         </Button>
       );
     },
+    cell: ({ row }) => {
+      const product = row.original;
+      return <>{product.price.toFixed(2)}€</>;
+    }
   },
   {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({ row }) => {
-      const status = row.getValue("status") as User["status"];
-
-      return (
-        <div
-          className={cn(
-            `p-1 rounded-md w-max text-xs`,
-            status === "active" && "bg-green-500/40",
-            status === "inactive" && "bg-red-500/40",
-            status === "admin" && "bg-blue-500/40"
-          )}
-        >
-          {status}
-        </div>
-      );
-    },
+    accessorKey: "shortDescription",
+    header: "Description",
   },
   {
     id: "actions",
     cell: ({ row }) => {
-      const user = row.original;
+      const product = row.original;
 
       return (
         <div className="flex items-center justify-end">
@@ -122,12 +118,14 @@ export const columns: ColumnDef<User>[] = [
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(user.id)}
+                onClick={() => navigator.clipboard.writeText(product.id.toString())}
               >
-                Copy user ID
+                Copy product ID
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem><Link  href={`/users/${user.id}`}>View customer</Link></DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link href={`/products/${product.id}`}>View Product</Link>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

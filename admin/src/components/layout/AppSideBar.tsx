@@ -13,9 +13,6 @@ import {
   SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
   SidebarSeparator,
 } from "@/components/ui/sidebar";
 
@@ -27,11 +24,10 @@ import {
   User2,
   ChevronUp,
   Plus,
-  Projector,
   CalendarIcon,
   Shirt,
   User,
-  CreditCard
+  CreditCard,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -43,6 +39,12 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { useEffect, useState } from "react";
+import { Sheet, SheetTrigger } from "../ui/sheet";
+import EditUser from "../EditUser";
+import AddOrder from "../AddOrder";
+import AddUser from "../AddUser";
+import AddCategory from "../AddCategory";
+import AddProduct from "../AddProduct";
 
 const items = [
   { label: "Dashboard", href: "/", icon: Home },
@@ -97,7 +99,9 @@ const AppSidebar = () => {
                       <span>{item.label}</span>
                     </Link>
                   </SidebarMenuButton>
-                  {item.label === "Reports" && (<SidebarMenuBadge>24</SidebarMenuBadge>)}
+                  {item.label === "Reports" && (
+                    <SidebarMenuBadge>24</SidebarMenuBadge>
+                  )}
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
@@ -107,9 +111,6 @@ const AppSidebar = () => {
         <SidebarSeparator className="mx-0" />
         <SidebarGroup>
           <SidebarGroupLabel>Products</SidebarGroupLabel>
-          <SidebarGroupAction>
-            <Plus /> <span className="sr-only">Add product</span>
-          </SidebarGroupAction>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
@@ -121,24 +122,31 @@ const AppSidebar = () => {
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/products/new">
-                    <Plus />
-                    <span>Add Product</span>
-                  </Link>
-                </SidebarMenuButton>
+                <Sheet>
+                  <SheetTrigger asChild>
+                    <SidebarMenuButton>
+                      <Plus />
+                      <span>Add Product</span>
+                    </SidebarMenuButton>
+                  </SheetTrigger>
+                  <AddProduct />
+                </Sheet>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/category/new">
-                    <Plus />
-                    <span>Add Category</span>
-                  </Link>
-                </SidebarMenuButton>
+                <Sheet>
+                  <SheetTrigger asChild>
+                    <SidebarMenuButton>
+                      <Plus />
+                      <span>Add Category</span>
+                    </SidebarMenuButton>
+                  </SheetTrigger>
+                  <AddCategory />
+                </Sheet>
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+        {/*Users section */}
         <SidebarSeparator className="mx-0" />
         <SidebarGroup>
           <SidebarGroupLabel>Users</SidebarGroupLabel>
@@ -156,16 +164,20 @@ const AppSidebar = () => {
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/users/new">
-                    <Plus />
-                    <span>Add User</span>
-                  </Link>
-                </SidebarMenuButton>
+                <Sheet>
+                  <SheetTrigger asChild>
+                    <SidebarMenuButton>
+                      <Plus />
+                      <span>Add User</span>
+                    </SidebarMenuButton>
+                  </SheetTrigger>
+                  <AddUser />
+                </Sheet>
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+        {/*Orders section */}
         <SidebarSeparator className="mx-0" />
         <SidebarGroup>
           <SidebarGroupLabel>Orders</SidebarGroupLabel>
@@ -178,48 +190,24 @@ const AppSidebar = () => {
                 <SidebarMenuButton asChild>
                   <Link href="/orders">
                     <CreditCard />
-                    <span>See All Orders</span>
+                    <span>See All Transaction</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/orders/new">
-                    <Plus />
-                    <span>Add Order</span>
-                  </Link>
-                </SidebarMenuButton>
+                <Sheet>
+                  <SheetTrigger asChild>
+                    <SidebarMenuButton>
+                      <Plus />
+                      <span>Add Order</span>
+                    </SidebarMenuButton>
+                  </SheetTrigger>
+                  <AddOrder />
+                </Sheet>
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        {/*Sidebar Nested
-        <SidebarSeparator className="mx-0" />
-        <SidebarGroup>
-          <SidebarGroupLabel>Nested items</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/products/new">
-                    <Projector />
-                    <span>All projects</span>
-                  </Link>
-                </SidebarMenuButton>
-                <SidebarMenuSub>
-                  <SidebarMenuSubItem>
-                    <SidebarMenuSubButton asChild>
-                      <Link href="#">
-                        <Plus />
-                        <span>Add Project</span>
-                      </Link>
-                    </SidebarMenuSubButton>
-                  </SidebarMenuSubItem>
-                </SidebarMenuSub>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>*/}
       </SidebarContent>
       <SidebarFooter className="mb-3">
         <SidebarMenu>
