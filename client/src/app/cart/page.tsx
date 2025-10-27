@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import PaymentForm from "@/components/PaymentForm";
 import ShippingForm from "@/components/ShippingForm";
-import { CartItemsType, shippingFormInputs } from "@/types";
+import { shippingFormInputs } from "@/types";
 import { ArrowRight, Trash2 } from "lucide-react";
 import { useSearchParams, useRouter } from "next/navigation";
 import useCartStore from "@/store/cartStore";

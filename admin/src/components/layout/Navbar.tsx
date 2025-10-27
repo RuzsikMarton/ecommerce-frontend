@@ -15,12 +15,14 @@ import ToggleTheme from "../ToggleTheme";
 import { SidebarTrigger, useSidebar } from "../ui/sidebar";
 
 const Navbar = () => {
-  const { toggleSidebar} = useSidebar();
+  {
+    /*const { toggleSidebar} = useSidebar();*/
+  }
   return (
     <nav className="p-4 flex justify-between items-center sticky top-0 bg-background z-10">
       {/*Left*/}
       <SidebarTrigger />
-      {/*<Button variant="outline" onClick={toggleSidebar}>Custom Buttonn</Button>*/}
+      {/*<Button variant="outline" onClick={toggleSidebar}>Custom Button</Button>*/}
       {/*Right*/}
       <div className="flex gap-4 items-center">
         <Link href="/">Dashboard</Link>
@@ -39,10 +41,10 @@ const Navbar = () => {
               <User className="mr-2 h-3 w-3" /> Profile
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <Settings className="mr-2 h-3 w-3"/> Settings
+              <Settings className="mr-2 h-3 w-3" /> Settings
             </DropdownMenuItem>
             <DropdownMenuItem variant="destructive">
-              <LogOut className="mr-2 h-3 w-3"/> Logout
+              <LogOut className="mr-2 h-3 w-3" /> Logout
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

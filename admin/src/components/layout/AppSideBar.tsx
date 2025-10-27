@@ -40,7 +40,6 @@ import {
 } from "../ui/dropdown-menu";
 import { useEffect, useState } from "react";
 import { Sheet, SheetTrigger } from "../ui/sheet";
-import EditUser from "../EditUser";
 import AddOrder from "../AddOrder";
 import AddUser from "../AddUser";
 import AddCategory from "../AddCategory";

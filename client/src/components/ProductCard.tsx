@@ -77,7 +77,7 @@ const ProductCard = memo(({ product }: { product: Products }) => {
               {product.colors.map((color) => (
                 <div
                   key={color}
-                  onClick={(e) => handlePorductTypeChange("color", color)}
+                  onClick={() => handlePorductTypeChange("color", color)}
                   className={`rounded-full p-[1.2px] border cursor-pointer ${
                     productTypes.color === color
                       ? "border-gray-500"
